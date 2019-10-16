@@ -8,17 +8,31 @@
 </head>
 
 <body class="container">
-
     <main>
         <div>
-            <h1>This is great</h1>
-            <p>Welcome to templating using EJS</p>
+            <h3>Products</h3>
+            <table class="table mt-3">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Link</th>
+                        <th>Timeline</th>
+                    </tr>
+                </thead>
+                <% products.forEach(function(product,index) { %>
+                <tr>
+                    <td> <%= index+1 %> </td>
+                    <td> <%= product.name %> </td>
+                    <td> <a href="<%= product.url %>" class="btn btn-primary">buy</a></td>
+                    <td> <a href="http://localhost:3000/products/<%= product.product_uuid %>/timeline"
+                            class="btn btn-secondary">
+                            view</a></td>
+                </tr>
+                <% }) %>
+            </table>
         </div>
     </main>
-
-    <footer>
-        <% include ../partials/footer.ejs %>
-    </footer>
 
 </body>
 
