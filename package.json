@@ -1,0 +1,23 @@
+{
+  "name": "scraper",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node scraper.js"
+  },
+  "dependencies": {
+    "@polka/send-type": "^0.5.2",
+    "cheerio": "^1.0.0-rc.3",
+    "ejs": "^2.7.1",
+    "lodash-id": "^0.14.0",
+    "lowdb": "^1.0.0",
+    "node-cron": "^2.0.3",
+    "polka": "^0.5.2",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
