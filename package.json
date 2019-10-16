@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node scraper.js"
+    "start": "node server.js | node cron.js"
   },
   "dependencies": {
     "@polka/send-type": "^0.5.2",
+    "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
     "ejs": "^2.7.1",
     "lodash-id": "^0.14.0",

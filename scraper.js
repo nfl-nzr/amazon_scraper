@@ -1,6 +1,7 @@
 const _dbOps = require('./helpers/db')
 const _getPageSource = require('./helpers/api')._getPageSource;
 const _parsePriceFromSource = require('./helpers/parser')._parsePriceFromSource;
+const task = require('./server')
 
 async function _main() {
     const products = _dbOps.getAllProducts();
@@ -9,7 +10,11 @@ async function _main() {
         .then(sources => sources.map(source => _parsePriceFromSource(source.html, source.id)))
         .then(pricePromises => Promise.all(pricePromises))
         .then(data => _dbOps.updateJob(data))
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            //Stopping cron job to avoid detection.
+            task.stop()
+        });
 };
 
 module.exports = {
