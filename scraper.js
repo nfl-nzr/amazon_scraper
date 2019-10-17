@@ -9,7 +9,9 @@ async function _main() {
     Promise.all(sourcePromises)
         .then(sources => sources.map(source => _parsePriceFromSource(source.html, source.id)))
         .then(pricePromises => Promise.all(pricePromises))
-        .then(data => _dbOps.updateJob(data))
+        .then(data => {
+            console.log(data)
+            return _dbOps.updateJob(data)})
         .catch(err => {
             console.log(err);
             //Stopping cron job to avoid detection.

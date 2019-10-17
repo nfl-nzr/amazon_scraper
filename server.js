@@ -42,21 +42,23 @@ app.get('/products', (req, res) => {
     res.render()
 });
 app.get('/products/:id/timeline', (req, res) => {
-    res.render = () => {
-        const products = _dbOps.getAllProducts();
-        renderFile(join(views, 'pages/product.ejs'), { products }, (err, html) => {
-            // Handle Error, else return output
-            if (err) return send(res, 500, err.message || err);
-            res.setHeader('content-type', 'text/html');
-            send(res, 200, html);
-        });
-    }
-    res.render()
+    return send(res, 200, _dbOps.getProductAndTimeline(req.params.id), JSON_HEADER)
+    // res.render = () => {
+    //     const products = _dbOps.getAllProducts();
+    //     renderFile(join(views, 'pages/product.ejs'), { products }, (err, html) => {
+    //         // Handle Error, else return output
+    //         if (err) return send(res, 500, err.message || err);
+    //         res.setHeader('content-type', 'text/html');
+    //         send(res, 200, html);
+    //     });
+    // }
+    // res.render()
 });
 
 
 //Temporarily coupled with the server. Will use concurrently in the future.
 const task = cron.schedule('0 0 * * *', () => {
+    console.log('Scraping every day at midnight')
     scrape()
 });
 

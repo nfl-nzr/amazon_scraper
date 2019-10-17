@@ -88,7 +88,7 @@ const getProductAndTimeline = id => {
         .filter({ product_uuid: id })
         .value()
         .map(ele => {
-            return { price: ele.price, data: ele.date }
+            return { price: ele.price, date: ele.date }
         });
     data.product = getById(id);
     return data;
