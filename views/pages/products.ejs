@@ -77,7 +77,7 @@
         const productId = $(this).attr("data-attr-id");
         console.log(productId);
         $.ajax({
-          url: `http://localhost:3000/products/${productId}/timeline`,
+          url: `https://blue-snow-scraper.herokuapp.com/products/${productId}/timeline`,
           success: function(response) {
             $("#spinner").toggle();
             $(".help-txt").addClass('d-none')
