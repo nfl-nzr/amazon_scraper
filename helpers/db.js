@@ -83,14 +83,29 @@ const getById = id => db.get('products')
 
 const getProductAndTimeline = id => {
     const data = {}
-    data.timeline = db
+    timeline = db
         .get('timeline')
         .filter({ product_uuid: id })
         .value()
         .map(ele => {
             return { price: ele.price, date: ele.date }
         });
+    const dataSet = [];
+    const pointBackgroundColor = [];
+    const borderColor = [];
+    const labels = timeline
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .map(line => {
+            pointBackgroundColor.push("#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); }))
+            dataSet.push(Number(line.price.replace(/[^0-9.-]+/g, "")));
+            return (new Date(line.date).toLocaleString().split(',')[0]);
+        });
+    data.pointBackgroundColor = pointBackgroundColor;
     data.product = getById(id);
+    data.dataSet = dataSet;
+    data.borderColor = borderColor;
+    data.labels = labels;
+
     return data;
 }
 module.exports = {

@@ -1,0 +1,14 @@
+.help-txt {
+    display: block;
+    width: 50%;
+    text-align: center;
+}
+.card-title {
+    color: mediumpurple;
+}
+.table td, .table th {
+    border-top: none !important;
+}
+.price {
+    color: tomato;
+}
