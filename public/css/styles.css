@@ -12,3 +12,6 @@
 .price {
     color: tomato;
 }
+.current-price {
+    color: green;
+}

@@ -15,7 +15,9 @@ $(document).ready(function () {
                     drawChart(ctx, labels, priceData, pointBackgroundColor);
                     $(".card-title").text(product.name);
                     $(".price-text").text("Lowest price encountered : ₹​ ");
-                    $(".price").text(Math.min(...priceData).toLocaleString('en'))
+                    $(".price").text(Math.min(...priceData).toLocaleString('en'));
+                    $(".current-price-text").text("Current price : ₹​ ");
+                    $(".current-price").text(priceData[priceData.length - 1].toLocaleString('en'));
                 } else {
                     $('#graph').hide()
                     $(".card-title").text(product.name);
