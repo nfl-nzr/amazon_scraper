@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 
 const _parsePriceFromSource = async (html, id) => {
+    console.log('Parsing source...')
     const productDetails = {};
     productDetails.id = id;
     try {

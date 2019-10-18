@@ -4,9 +4,12 @@ const _ = require('lodash-id')
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const uuidv3 = require('uuid/v3');
+const yup = require('yup');
 
 const adapter = new FileSync('db.json');
 const db = low(adapter);
+
+const validate = require('./validators')
 
 const init = () => {
     const productsName = db.has('products').value();
@@ -58,15 +61,17 @@ const initProductAndTimeline = (productId, product) => {
 
 const getAllProducts = () => db.get('products').value();
 
-//TODO implement product object validation before creating.
 const addProduct = product => {
     init();
+    const id = uuidv3(product.name, NAME_SPACE);
     const existingProduct = db.get('products')
-        .find({ product_uuid: uuidv3(product.name, NAME_SPACE) })
+        .find({ product_uuid: id })
         .value();
     if (existingProduct) {
         console.log(`${product.name} already exists and price is being tracked`);
-        return;
+        return {
+            error: "Product exists"
+        };
     }
     db.get('products')
         .push({
@@ -74,7 +79,13 @@ const addProduct = product => {
             ...product
         })
         .write();
-    console.log(`Added ${product.name} to list of items to be tracked`)
+    const newProduct = getById(id);
+
+    return {
+        code: 200,
+        message: `Added ${product.name} to list of items to be tracked`,
+        product: newProduct
+    }
 }
 
 const getById = id => db.get('products')
@@ -90,19 +101,19 @@ const getProductAndTimeline = id => {
         .map(ele => {
             return { price: ele.price, date: ele.date }
         });
-    const dataSet = [];
+    const priceData = [];
     const pointBackgroundColor = [];
     const borderColor = [];
     const labels = timeline
         .sort((a, b) => new Date(a.date) - new Date(b.date))
         .map(line => {
             pointBackgroundColor.push("#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); }))
-            dataSet.push(Number(line.price.replace(/[^0-9.-]+/g, "")));
+            priceData.push(Number(line.price.replace(/[^0-9.-]+/g, "")));
             return (new Date(line.date).toLocaleString().split(',')[0]);
         });
     data.pointBackgroundColor = pointBackgroundColor;
     data.product = getById(id);
-    data.dataSet = dataSet;
+    data.priceData = priceData;
     data.borderColor = borderColor;
     data.labels = labels;
 

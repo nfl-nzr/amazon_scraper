@@ -2,102 +2,85 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <% include ../partials/head.ejs %>
-  </head>
 
-  <body>
-    <% include ../partials/header.ejs %>
-    <main class="container mt-2">
-      <div>
-        <div class="row mt-4">
-          <div class="col-6">
-           <div class="d-flex justify-content-between">
-              <h5 class="text-muted d-inline">PRODUCTS</h5>
+<head>
+  <% include ../partials/head.ejs %>
+</head>
+
+<body>
+  <% include ../partials/header.ejs %>
+  <main class="container mt-2">
+    <div>
+      <div class="row mt-4">
+        <div class="col-6">
+          <div class="d-flex justify-content-between">
+            <h5 class="text-muted d-inline">PRODUCTS</h5>
             <!-- Button trigger modal -->
-            <button
-              type="button"
-              class="btn btn-primary btn-sm d-inline"
-              data-toggle="modal"
-              data-target="#exampleModalCenter"
-            >
+            <button type="button" class="btn btn-primary btn-sm d-inline" data-toggle="modal"
+              data-target="#exampleModalCenter">
               +
             </button>
-           </div>
-            <!-- Products-List begin -->
-            <div class="card mt-3">
-              <div class="card-body">
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Link</th>
-                      <th>Timeline</th>
-                    </tr>
-                  </thead>
-                  <% products.forEach(function(product,index) { %>
+          </div>
+          <!-- Products-List begin -->
+          <div class="card mt-3">
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
                   <tr>
-                    <td><%= index+1 %></td>
-                    <td><%= product.name %></td>
-                    <td>
-                      <a href="<%= product.url %>" class="btn btn-success"
-                        >buy</a
-                      >
-                    </td>
-                    <td>
-                      <button
-                        data-attr-id="<%= product.product_uuid %>"
-                        class="btn btn-primary view-btn"
-                      >
-                        view
-                      </button>
-                    </td>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Link</th>
+                    <th>Timeline</th>
                   </tr>
-                  <% }) %>
-                </table>
-              </div>
-            </div>
-            <!-- Products-List end  -->
-          </div>
-          <!-- History-Chart begin  -->
-          <div class="col-6 d">
-            <h5 class="text-muted">PRICE HISTORY</h5>
-            <div class="card mt-4">
-              <div class="card-body">
-                <h4 class="card-title"></h4>
-                <h6 class="card-subtitle mb-2 text-muted">
-                  <span class="price-text"></span><span class="price"></span>
-                </h6>
-                <div class="help-txt m-auto">
-                  <h6>Select an item from the right</h6>
-                </div>
-
-                <div>
-                  <span class="lowest-price"></span>
-                </div>
-                <canvas
-                  class="mt-5"
-                  id="myChart"
-                  width="100"
-                  height="50"
-                ></canvas>
-                <div
-                  id="spinner"
-                  class="spinner-border"
-                  style="display: inherit; margin: auto;"
-                  role="status"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </div>
+                </thead>
+                <% products.forEach(function(product,index) { %>
+                <tr>
+                  <td><%= index+1 %></td>
+                  <td><%= product.name %></td>
+                  <td>
+                    <a href="<%= product.url %>" class="btn btn-success">buy</a>
+                  </td>
+                  <td>
+                    <button data-attr-id="<%= product.product_uuid %>" class="btn btn-primary view-btn">
+                      view
+                    </button>
+                  </td>
+                </tr>
+                <% }) %>
+              </table>
             </div>
           </div>
-          <!-- History-Chart end  -->
+          <!-- Products-List end  -->
         </div>
+        <!-- History-Chart begin  -->
+        <div class="col-6 d">
+          <h5 class="text-muted">PRICE HISTORY</h5>
+          <div class="card mt-4">
+            <div class="card-body">
+              <h4 class="card-title"></h4>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <span class="price-text"></span><span class="price"></span>
+              </h6>
+              <div class="help-txt m-auto">
+                <h6>Select an item from the right</h6>
+              </div>
+
+              <div>
+                <span class="lowest-price"></span>
+              </div>
+              <canvas class="mt-5" id="graph" width="100" height="50"></canvas>
+              <div id="spinner" class="spinner-border" style="display: inherit; margin: auto;" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- History-Chart end  -->
       </div>
-    </main>
-    <% include ../modals/add_product.ejs %>
-  </body>
+    </div>
+  </main>
+  <% include ../modals/add_product.ejs %>
+</body>
+
 </html>
 <% include ../partials/footer.ejs %>
