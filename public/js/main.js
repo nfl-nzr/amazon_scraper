@@ -1,3 +1,5 @@
+
+let chart;
 $(document).ready(function () {
     $("#spinner").toggle();
     $(".view-btn").click(function () {
@@ -50,7 +52,8 @@ $(document).ready(function () {
 });
 
 function drawChart(ctx, labels, data, pointBackgroundColor) {
-    const chart = new Chart(ctx, {
+    if (chart) chart.destroy()
+    chart = new Chart(ctx, {
         type: "line",
         data: {
             labels: labels,
