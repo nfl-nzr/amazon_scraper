@@ -59,10 +59,10 @@ app.get('/:id/timeline', (req, res) => {
     return send(res, 200, _dbOps.getProductAndTimeline(req.params.id), JSON_HEADER)
 });
 
-//Temporarily coupled with the server. Will use concurrently in the future.
-// const task = cron.schedule('0 0 * * *', () => {
-//     console.log('Scraping every day at midnight')
-//     scrape()
-// });
+// Temporarily coupled with the server. Will use concurrently in the future.
+const task = cron.schedule('0 0 * * *', () => {
+    console.log('Scraping every day at midnight')
+    scrape()
+});
 
-// module.exports = task;
+module.exports = { task };
