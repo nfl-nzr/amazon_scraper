@@ -9,7 +9,6 @@ async function _main(products = _dbOps.getAllProducts()) {
         .then(sources => sources.map(source => _parsePriceFromSource(source.html, source.id)))
         .then(pricePromises => Promise.all(pricePromises))
         .then(data => {
-            console.log(data)
             return _dbOps.updateJob(data)
         })
         .catch(err => {

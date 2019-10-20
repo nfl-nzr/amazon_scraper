@@ -13,7 +13,6 @@ const { renderFile } = require('ejs');
 const validate = require('./helpers/validators');
 const views = join(__dirname, 'views');
 const static_dir = join(__dirname, "public");
-console.log(static_dir)
 
 const scrape = require('./scraper')._main;
 const _dbOps = require('./helpers/db');
@@ -23,7 +22,7 @@ const serve = require('serve-static')(static_dir);
 const app = polka().listen(PORT, () => console.log('App listening on ' + PORT));
 
 app.use(serve);
-app.use(urlencoded());
+app.use(urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.render = () => {
@@ -47,10 +46,8 @@ app.post('/', async (req, res) => {
     if (!valid) return send(res, 400, { message: 'Product is not valid' }, JSON_HEADER)
     const response = _dbOps.addProduct({ name, url });
     if (response.error) {
-        console.log(response)
         return send(res, response.code, { message: response.error }, JSON_HEADER)
     } else {
-        console.log(response.product);
         scrape([response.product])
         return send(res, 200, { message: 'Product added' }, JSON_HEADER)
     }
