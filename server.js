@@ -2,6 +2,7 @@ const JSON_HEADER = {
     'Content-Type': 'application/json; charset=utf-8'
 };
 const PORT = process.env.PORT || 3000;
+const PIN = process.env.PIN || 1234;
 
 const polka = require('polka');
 const send = require('@polka/send-type');
@@ -40,7 +41,7 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
 
     const { url, name, pin } = req.body;
-    if (!pin || pin !== '1234') return send(res, 401, { message: 'Unauthorized' }, JSON_HEADER);
+    if (!pin || pin !== PIN) return send(res, 401, { message: 'Unauthorized' }, JSON_HEADER);
     const product = { name, url };
     const valid = await validate(product);
     if (!valid) return send(res, 400, { message: 'Product is not valid' }, JSON_HEADER)
@@ -60,8 +61,8 @@ app.get('/:id/timeline', (req, res) => {
 });
 
 // Temporarily coupled with the server. Will use concurrently in the future.
-const task = cron.schedule('0 0 * * *', () => {
-    console.log('Scraping every day at midnight')
+const task = cron.schedule('* */6 * * *', () => {
+    console.log('Scraping every 6 hours')
     scrape()
 });
 
