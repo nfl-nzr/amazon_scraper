@@ -61,7 +61,7 @@ app.get('/:id/timeline', (req, res) => {
 });
 
 // Temporarily coupled with the server. Will use concurrently in the future.
-const task = cron.schedule('* */6 * * *', () => {
+const task = cron.schedule('0 */6 * * *', () => {
     console.log('Scraping every 6 hours')
     scrape()
 });
