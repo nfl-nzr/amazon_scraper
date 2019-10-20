@@ -6,7 +6,7 @@ $(document).ready(function () {
         $("#spinner").toggle();
         const productId = $(this).attr("data-attr-id");
         $.ajax({
-            url: `https://blue-snow-scraper.herokuapp.com/${productId}/timeline`,
+            url: `http://ec2-18-191-209-43.us-east-2.compute.amazonaws.com:3000/${productId}/timeline`,
             success: function (response) {
                 const { priceData, labels, product, pointBackgroundColor } = response;
                 $("#spinner").toggle();
@@ -36,7 +36,7 @@ $(document).ready(function () {
 
             type: 'post',
             data: formData,
-            url: 'https://blue-snow-scraper.herokuapp.com',
+            url: 'http://ec2-18-191-209-43.us-east-2.compute.amazonaws.com:3000',
             dataType: 'json',
             encode: true,
             success: function (response) {
