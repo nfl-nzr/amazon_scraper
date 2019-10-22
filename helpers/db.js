@@ -1,6 +1,5 @@
 const NAME_SPACE = '8d9c4784-f756-413e-944f-d0ff5dc130b0';
-
-const _ = require('lodash-id')
+const sendPriceDropMail = require('./mailer')
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const uuidv3 = require('uuid/v3');
@@ -21,7 +20,7 @@ const init = () => {
 const updateJob = products => {
     products.forEach(product => {
         const productId = product.id
-        const productExists = checkIfProductExists(productId);
+        const productExists = checkIfProductExists(productId, product.product, product.price);
         if (!productExists) {
             initProductAndTimeline(productId, product)
         } else updateTimeline(productId, product)
@@ -36,11 +35,18 @@ const updateTimeline = (productId, product) => {
 
 }
 
-const checkIfProductExists = productId => {
+const checkIfProductExists = (productId, name, currentPrice) => {
     const existingProduct = db.get('products')
         .filter({ product_uuid: productId })
         .value();
     if (existingProduct.length > 0) {
+        const priceTimeline = db
+            .get('timeline')
+            .filter({ product_uuid: productId })
+            .value()
+            .map(ele => ele.price.replace(/[^0-9.-]+/g, ""));
+        const allTimeLow = Number.parseInt(currentPrice.replace(/[^0-9.-]+/g, "")) < Number.parseInt((Math.min(...priceTimeline)));
+        if (allTimeLow) sendPriceDropMail(name, currentPrice)
         return true;
     } else return false;
 };
@@ -109,7 +115,7 @@ const getProductAndTimeline = id => {
         .map(line => {
             pointBackgroundColor.push("#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); }))
             priceData.push(Number(line.price.replace(/[^0-9.-]+/g, "")));
-            return (new Date(line.date).toLocaleString().split(',')[0]);
+            return (new Date(line.date).toLocaleString());
         });
     data.pointBackgroundColor = pointBackgroundColor;
     data.product = getById(id);
